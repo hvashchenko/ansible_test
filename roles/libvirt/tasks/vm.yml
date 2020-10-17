@@ -1,0 +1,20 @@
+- name: "{{ vm.name }} :: check current virtual machines"
+  virt:
+    command: list_vms
+  register: vms
+- name: " Create virtual machines "
+  shell: 
+    cmd: >- 
+        virt-install 
+        --noautoconsole
+        --name {{ vm.name }}
+        --memory {{ vm.mem|default('512') }}
+        --vcpus  {{ vm.cpu|default('1') }}
+        --disk /virt/images/iso/{{ vm.name }}/{{ vm.name }}.qcow2,device=disk,bus=virtio 
+        --disk /virt/images/iso/{{ vm.name }}/cidata.iso,device=cdrom
+        --network default 
+        --os-type linux 
+        --virt-type kvm 
+        --graphics none 
+        --import
+  when: vm.name not in vms.list_vms      

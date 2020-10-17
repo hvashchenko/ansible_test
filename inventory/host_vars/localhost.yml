@@ -10,22 +10,25 @@ enableroot: yes
 vm_public_key: "{{lookup('file','~/.ssh/id_rsa.pub')}}"
 virtual_machines:
   - name: kvm0
+    id: 0
     cpu: 1
     mem: 1024
     disk: 8G
     bridge: virbr0
     net:
-      ip: 192.168.15.199
+      ip: 192.168.124.101
       mask: 255.255.255.0
-      gateway: 192.168.15.1
-      dns: 192.168.15.199
+      gateway: 192.168.124.1
+      dns: 8.8.8.8
   - name: kvm1
+    id: 1
     cpu: 1
     mem: 1024
     disk: 8G
     bridge: virbr0
     net:
-      ip: 192.168.15.201
+      ip: 192.168.124.102
       mask: 255.255.255.0
-      gateway: 192.168.15.1
-      dns: 192.168.15.199
+      gateway: 192.168.124.1
+      dns: 8.8.8.8
+

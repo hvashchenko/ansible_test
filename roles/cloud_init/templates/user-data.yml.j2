@@ -1,21 +1,30 @@
 #cloud-config
-ds: nocloud
-hostname: "{{ vm.name }}"
+password: password
 fqdn: "{{ vm.name }}.{{ domain }}"
+chpasswd: {expire}
+ssh_pwauth: True
 manage_etc_hosts: false
-ssh_pwauth: True 
-chpasswd: { expire: False }
 timezone: UTC
-
-{% if enableroot is defined %}
-disable_root: false
-runcmd:
-  - sed -i'.orig' -e's/without-password/yes/' /etc/ssh/sshd_config
-  - service sshd restart
-{% endif %}
-
-output:
-  all: ">> /var/log/cloud-init.log"
-
 ssh_authorized_keys:
   - {{ vm_public_key }}
+apt_update: true
+package_update: true
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+runcmd:
+  - touch /etc/cloud/cloud-init.disabled
+  - echo 1 > /proc/sys/net/ipv4/ip_forward
+  - echo "nameserver 8.8.8.8" > /etc/resolv.conf
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  bionic  stable"
+  - apt-add-repository ppa:ansible/ansible
+  - apt-get update
+  - apt-get install docker-ce -y
+  - apt-get install ansible - y
+
+output:
+  all: ">> /var/log/cloud-init.log	
+

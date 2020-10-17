@@ -45,13 +45,6 @@
          cloudimg_local_stat.stat.size != cloudimg_http_stat.content_length
       register: cloudimg_local_updated 
 
-    - name: Convert cloud image qcow format 
-      shell: 
-        chdir: /virt/images/
-        cmd: qemu-img convert -f qcow2 bionic-server-cloudimg-amd64.img bionic-server-cloudimg-amd64.qcow2
-        creates: /virt/images/bionic-server-cloudimg-amd64.qcow2
-      when: cloudimg_local_updated.changed|bool
-
     - name: Virtual machine directory 
       file: 
         path: /virt/vms
