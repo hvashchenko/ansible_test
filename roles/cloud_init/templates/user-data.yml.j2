@@ -1,9 +1,13 @@
 #cloud-config
-password: qwerty
-chpasswd: { expire: False }
-ssh_pwauth: True
-ssh_authorized_keys:
-  - {{ vm_public_key }}
+users:
+  - default
+  - name: ubuntu
+    ssh-authorized-keys:
+      - {{ vm_public_key }}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo
+    shell: /bin/bash
+
 package_update: true
 packages:
   - apt-transport-https
@@ -20,7 +24,3 @@ runcmd:
   - apt-get update
   - apt-get install docker-ce -y
   - apt-get install ansible - y
-
-output:
-  all: ">> /var/log/cloud-init.log"	
-
