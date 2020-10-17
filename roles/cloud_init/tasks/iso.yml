@@ -1,0 +1,31 @@
+---
+- name: Iso directory 
+  file: 
+    state: directory 
+    path: /virt/images/iso
+
+- name:  VM storage location 
+  file: 
+    state: directory 
+    path: /virt/images/iso/{{vm.name}}
+
+- name: Create log file 
+  file:
+    state: touch
+    path: /virt/images/logs
+
+- name: Create cloud-init config
+  template:
+    src: "{{ item.src }}"
+    dest: /virt/images/iso/{{vm.name}}/{{ item.dest }}
+    mode: 0777
+  with_items:
+    - { src: user-data.yml.j2, dest: user-data }
+    - { src: meta-data.yml.j2, dest: meta-data }
+
+- name: Create root disk based on cloud init img
+  command: "qemu-img create -b /virt/images/bionic-server-cloudimg-amd64.img -f qcow2 /virt/images/iso/{{ vm.name }}/{{ vm.name }}.qcow2 {{ vm.disk|default('8G')  }}"      
+
+- name: Create iso image for cloud init
+  shell: "genisoimage -output /virt/images/iso/{{ vm.name }}/cidata.iso -volid cidata -joliet -r /virt/images/iso/{{ vm.name }}/user-data /virt/images/iso/{{ vm.name }}/meta-data"
+

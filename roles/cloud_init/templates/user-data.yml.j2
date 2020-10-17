@@ -1,0 +1,21 @@
+#cloud-config
+ds: nocloud
+hostname: "{{ vm.name }}"
+fqdn: "{{ vm.name }}.{{ domain }}"
+manage_etc_hosts: false
+ssh_pwauth: True 
+chpasswd: { expire: False }
+timezone: UTC
+
+{% if enableroot is defined %}
+disable_root: false
+runcmd:
+  - sed -i'.orig' -e's/without-password/yes/' /etc/ssh/sshd_config
+  - service sshd restart
+{% endif %}
+
+output:
+  all: ">> /var/log/cloud-init.log"
+
+ssh_authorized_keys:
+  - {{ vm_public_key }}
