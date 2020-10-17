@@ -1,13 +1,9 @@
 #cloud-config
-password: password
-fqdn: "{{ vm.name }}.{{ domain }}"
-chpasswd: {expire}
+password: qwerty
+chpasswd: { expire: False }
 ssh_pwauth: True
-manage_etc_hosts: false
-timezone: UTC
 ssh_authorized_keys:
   - {{ vm_public_key }}
-apt_update: true
 package_update: true
 packages:
   - apt-transport-https
@@ -26,5 +22,5 @@ runcmd:
   - apt-get install ansible - y
 
 output:
-  all: ">> /var/log/cloud-init.log	
+  all: ">> /var/log/cloud-init.log"	
 
