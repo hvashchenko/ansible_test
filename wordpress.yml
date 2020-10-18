@@ -1,4 +1,4 @@
-- hosts: ubuntu
+- hosts: localhost
   become: yes
   roles:
-    - wordpress
+    - haproxy
