@@ -1,5 +1,5 @@
 ---
-- name: Configure Virtual Machines
+- name: Configure Iso
   include_tasks: iso.yml
   loop: "{{ virtual_machines }}"
   loop_control: 

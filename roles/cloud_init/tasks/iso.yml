@@ -26,7 +26,7 @@
     - { src: user-data.yml.j2, dest: user-data }
     - { src: meta-data.yml.j2, dest: meta-data }
 
-- name : check qcow2
+- name : Check qcow2
   stat: 
     path: "{{ iso_path }}/{{ vm.name }}/{{ vm.name }}.qcow2"
     get_checksum: no 

@@ -33,7 +33,8 @@
     stat: 
       path: "{{ img_path }}/bionic-server-cloudimg-amd64.img"
       get_checksum: no 
-    register: cloudimg_local_stat 
+    register: cloudimg_local_stat
+
   - name: Update Ubuntu 18.04 cloud image
     get_url:
       url: "{{ img_url }}"
