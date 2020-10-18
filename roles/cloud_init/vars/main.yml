@@ -1,0 +1,4 @@
+---
+iso_path: "{{ img_path }}/iso"
+log_path: "{{ img_path }}/log"
+username: ubuntu

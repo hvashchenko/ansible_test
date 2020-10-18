@@ -1,7 +1,7 @@
 #cloud-config
 users:
   - default
-  - name: ubuntu
+  - name: {{ username }}
     ssh-authorized-keys:
       - {{ vm_public_key }}
     sudo: ALL=(ALL) NOPASSWD:ALL
@@ -17,7 +17,7 @@ packages:
 runcmd:
   - touch /etc/cloud/cloud-init.disabled
   - echo 1 > /proc/sys/net/ipv4/ip_forward
-  - echo "nameserver {{ vm.inet.dns }}" | sudo tee /etc/resolv.conf > /dev/null
+  - echo "nameserver {{ vm.net.dns }}" | sudo tee /etc/resolv.conf > /dev/null
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  bionic  stable"
   - apt-add-repository ppa:ansible/ansible
