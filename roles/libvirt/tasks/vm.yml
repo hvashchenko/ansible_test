@@ -12,7 +12,7 @@
         --vcpus  {{ vm.cpu|default('1') }}
         --disk /virt/images/iso/{{ vm.name }}/{{ vm.name }}.qcow2,device=disk,bus=virtio 
         --disk /virt/images/iso/{{ vm.name }}/cidata.iso,device=cdrom
-        --network default 
+        --network network=external
         --os-type linux 
         --virt-type kvm 
         --graphics none 

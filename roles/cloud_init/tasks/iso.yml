@@ -3,16 +3,19 @@
   file: 
     state: directory 
     path: /virt/images/iso
+    mode: 0755
 
 - name:  VM storage location 
   file: 
     state: directory 
     path: /virt/images/iso/{{vm.name}}
+    mode: 0755
 
 - name: Create log file 
   file:
     state: touch
     path: /virt/images/logs
+    mode: 0755
 
 - name: Create cloud-init config
   template:

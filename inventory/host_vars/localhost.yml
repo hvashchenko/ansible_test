@@ -15,7 +15,6 @@ virtual_machines:
     cpu: 1
     mem: 1024
     disk: 8G
-    bridge: virbr0
     net:
       ip: 192.168.124.101
       mask: 255.255.255.0
@@ -26,7 +25,6 @@ virtual_machines:
     cpu: 1
     mem: 1024
     disk: 8G
-    bridge: virbr0
     net:
       ip: 192.168.124.102
       mask: 255.255.255.0

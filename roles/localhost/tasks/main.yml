@@ -43,13 +43,13 @@
         dest: /virt/images/bionic-server-cloudimg-amd64.img
       when: not cloudimg_local_stat.stat.exists or 
          cloudimg_local_stat.stat.size != cloudimg_http_stat.content_length
-      register: cloudimg_local_updated 
-
-    - name: Virtual machine directory 
-      file: 
-        path: /virt/vms
-        state: directory 
-        owner: root
-        group: root
-        mode: 0755
+      register: cloudimg_local_updated
+     
+    - name: Ip forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        sysctl_set: yes
+        state: present
+        reload: no
 
