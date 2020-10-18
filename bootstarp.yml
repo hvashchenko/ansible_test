@@ -8,7 +8,7 @@
   tasks:
   - name: Whaiting nodes start-uup
     pause:
-      seconds: 600 
+      seconds: 300 
 
 - hosts: ubuntu
   become: yes

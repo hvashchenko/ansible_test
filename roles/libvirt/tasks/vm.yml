@@ -37,6 +37,7 @@
   virt:
     command: list_vms
   register: vms
+
 - name: " Create virtual machines "
   shell: 
     cmd: >- 

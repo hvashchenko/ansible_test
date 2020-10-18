@@ -26,8 +26,16 @@
     - { src: user-data.yml.j2, dest: user-data }
     - { src: meta-data.yml.j2, dest: meta-data }
 
+- name : check qcow2
+  stat: 
+    path: "{{ iso_path }}/{{ vm.name }}/{{ vm.name }}.qcow2"
+    get_checksum: no 
+  register: cloudqcow_local_stat  
+
 - name: Create root disk based on cloud init img
-  command: "qemu-img create -b {{ img_path }}/bionic-server-cloudimg-amd64.img -f qcow2 {{ iso_path }}/{{ vm.name }}/{{ vm.name }}.qcow2 {{ vm.disk|default('8G')  }}"      
+  command: "qemu-img create -b {{ img_path }}/bionic-server-cloudimg-amd64.img -f qcow2 {{ iso_path }}/{{ vm.name }}/{{ vm.name }}.qcow2 {{ vm.disk|default('8G')  }}"
+  when: not cloudqcow_local_stat.stat.exists 
+  register: cloudqcow_local_updated  
 
 - name: Create iso image for cloud init
   shell: "genisoimage -output {{ iso_path }}/{{ vm.name }}/cidata.iso -volid cidata -joliet -r {{ iso_path }}/{{ vm.name }}/user-data {{ iso_path }}/{{ vm.name }}/meta-data"
