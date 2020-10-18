@@ -9,6 +9,12 @@ The host should have Virtualization Technology (VT) enabled and should be precon
 Running Playbook
 ================
 ```
-ansible-playbook -c paramiko wordpress.yml --vault-password-file=password_file
+ansible-playbook -c paramiko bootstrap.yml --vault-password-file=password_file
+
+```
+Destroy VmsPlaybook
+================
+``````
+ansible-playbook -c paramiko destroy.yml
 
 ```
