@@ -38,5 +38,5 @@
   register: cloudqcow_local_updated  
 
 - name: Create iso image for cloud init
-  shell: "genisoimage -output {{ iso_path }}/{{ vm.name }}/cidata.iso -volid cidata -joliet -r {{ iso_path }}/{{ vm.name }}/user-data {{ iso_path }}/{{ vm.name }}/meta-data"
+  shell: "genisoimage -output {{ iso_path }}/{{ vm.name }}/cidata.iso -volid cidata -joliet -r {{ iso_path }}/{{ vm.name }}/user-data {{ iso_path }}/{{ vm.name }}/meta-data &>> {{ log_path }}"
 
