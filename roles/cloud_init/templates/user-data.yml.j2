@@ -17,7 +17,7 @@ packages:
 runcmd:
   - touch /etc/cloud/cloud-init.disabled
   - echo 1 > /proc/sys/net/ipv4/ip_forward
-  - echo "{{ vm.net.dns }}" > /etc/resolv.conf
+  - echo "nameserver {{ vm.inet.dns }}" | sudo tee /etc/resolv.conf > /dev/null
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  bionic  stable"
   - apt-add-repository ppa:ansible/ansible

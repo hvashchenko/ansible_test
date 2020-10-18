@@ -1,6 +1,5 @@
 ---
-cloudimg_url: 
-
+system_user: ubuntu
 domain: local.lab
 # Kvm session
 libvirt_dir: /virt

@@ -2,4 +2,5 @@
 localhost ansible_connection=local
 
 [ubuntu]
-XX.XX.XX.XX ansible_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_pass=password
+192.168.123.101 ansible_connection=ssh ansible_ssh_user=ubuntu
+192.168.123.102 ansible_connection=ssh ansible_ssh_user=ubuntu
