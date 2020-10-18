@@ -1,55 +1,52 @@
-    - name: "just execute a ls -lrt command"
-      shell: "ls -lrt"
-      register: "output"
-    - name: KVM and QEMU System components 
-      apt: 
-        name: 
-          - qemu-kvm 
-          - libvirt-daemon-system 
-          - libvirt-clients 
-          - python-libvirt
-          - python-lxml
-          - bridge-utils
-          - cloud-image-utils
-          - virtinst
-          - python-apt  
-    - name: Libvirtd systemd service
-      service: 
-        name: libvirtd
-        enabled: true 
-        state: started         
+  - name: KVM and QEMU System components 
+    apt: 
+      name: 
+        - qemu-kvm 
+        - libvirt-daemon-system 
+        - libvirt-clients 
+        - python-libvirt
+        - python-lxml
+        - bridge-utils
+        - cloud-image-utils
+        - virtinst
+        - python-apt  
 
-    - name: qemu images directory 
-      file: 
-        state: directory 
-        path: /virt/images
+  - name: Libvirtd systemd service
+    service: 
+      name: libvirtd
+      enabled: true 
+      state: started         
 
-    - name: Check Ubuntu 18.04 cloud image
-      uri: 
-        url: https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
-        method: HEAD
-      register: cloudimg_http_stat
-      check_mode: no 
+  - name: qemu images directory 
+    file: 
+      state: directory 
+      path: "{{ img_path }}"    
 
-    - name: Check local cloud image 
-      stat: 
-        path: /virt/images/bionic-server-cloudimg-amd64.img 
-        get_checksum: no 
-      register: cloudimg_local_stat 
+  - name: Check Ubuntu 18.04 cloud image
+    uri: 
+      url: "{{ img_url }}"
+      method: HEAD
+    register: cloudimg_http_stat
+    check_mode: no 
 
-    - name: Update Ubuntu 18.04 cloud image
-      get_url:
-        url: https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
-        dest: /virt/images/bionic-server-cloudimg-amd64.img
-      when: not cloudimg_local_stat.stat.exists or 
-         cloudimg_local_stat.stat.size != cloudimg_http_stat.content_length
-      register: cloudimg_local_updated
+  - name: Check local cloud image 
+    stat: 
+      path: "{{ img_path }}/bionic-server-cloudimg-amd64.img"
+      get_checksum: no 
+    register: cloudimg_local_stat 
+  - name: Update Ubuntu 18.04 cloud image
+    get_url:
+      url: "{{ img_url }}"
+      dest: "{{ img_path }}/bionic-server-cloudimg-amd64.img"
+    when: not cloudimg_local_stat.stat.exists or 
+       cloudimg_local_stat.stat.size != cloudimg_http_stat.content_length
+    register: cloudimg_local_updated
      
-    - name: Ip forwarding
-      sysctl:
-        name: net.ipv4.ip_forward
-        value: "1"
-        sysctl_set: yes
-        state: present
-        reload: no
+  - name: Ip forwarding
+    sysctl:
+      name: net.ipv4.ip_forward
+      value: "1"
+      sysctl_set: yes
+      state: present
+      reload: no
 

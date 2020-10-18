@@ -1,8 +1,10 @@
 ---
+img_url: https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
 system_user: ubuntu
 domain: local.lab
 # Kvm session
 libvirt_dir: /virt
+img_path: /virt/images
 
 # Vm session: 
 enableroot: yes
