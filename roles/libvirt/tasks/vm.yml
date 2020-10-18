@@ -27,6 +27,12 @@
     command: start
     name: internal
 
+- name: Update network
+  virt_net:
+    name: external
+    command: modify
+    xml: "<host mac='{{ vm.mac }}' name='{{ vm.name }}' ip='{{ vm.net.ip }}'/>"
+
 - name: "{{ vm.name }} :: check current virtual machines"
   virt:
     command: list_vms
@@ -41,7 +47,8 @@
         --vcpus  {{ vm.cpu|default('1') }}
         --disk /virt/images/iso/{{ vm.name }}/{{ vm.name }}.qcow2,device=disk,bus=virtio 
         --disk /virt/images/iso/{{ vm.name }}/cidata.iso,device=cdrom
-        --network network=external
+        --network network=external,mac={{ vm.mac }}
+        --network network=internal
         --os-type linux 
         --virt-type kvm 
         --graphics none 

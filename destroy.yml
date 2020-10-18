@@ -14,8 +14,28 @@
           or use `-e ireallymeanit=yes` on the command line when
           invoking the playbook"
       when: ireallymeanit != 'yes'
+     
+    - name: Destroy network external
+      virt_net:
+        command: destroy
+        name: external
 
-    - name: "Check current virtual machines"
+    - name: Undefine network external
+      virt_net:
+        command: undefine
+        name: external
+
+    - name: Destroy network interna;
+      virt_net:
+        command: destroy
+        name: internal
+
+    - name: Undefine network internal
+      virt_net:
+        command: undefine
+        name: internal
+
+    - name: Check current virtual machines
       virt:
         command: list_vms
       register: vms
