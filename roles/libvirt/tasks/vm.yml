@@ -1,3 +1,32 @@
+---
+- name: Network directory 
+  file: 
+    state: directory 
+    path: /virt/network
+    mode: 0755
+
+- name: Define external network
+  virt_net:
+    command: define
+    name: external
+    xml: '{{ lookup("template", "external.xml.j2") }}'
+
+- name: Define internal network
+  virt_net:
+    command: define
+    name: internal
+    xml: '{{ lookup("template", "internal.xml.j2") }}'
+
+- name: Start external network
+  virt_net:
+    command: start
+    name: external
+
+- name: Start internal network
+  virt_net:
+    command: start
+    name: internal
+
 - name: "{{ vm.name }} :: check current virtual machines"
   virt:
     command: list_vms
