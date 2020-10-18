@@ -1,13 +1,6 @@
 ---
- - name: install haproxy
-   yum: name=haproxy state=present
-   tags: haproxy
-
- - name: configure haproxy
-   template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg
-   notify: reload haproxy
-   tags: haproxy
-
- - name: start haproxy
-   service: name=haproxy state=started
-   tags: haproxy
+- name: Configure haproxy
+  include_tasks: haproxy.yml
+  loop: "{{ virtual_machines }}"
+  loop_control:
+    loop_var: vm

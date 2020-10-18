@@ -1,2 +1,5 @@
 ---
-# vars file for haproxy
+port: 80
+ha_username: username
+ha_password: password
+

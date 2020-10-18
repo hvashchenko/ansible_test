@@ -21,14 +21,15 @@ listen stats
    stats enable
    stats uri /
    stats realm Haproxy\ Statistics
-   stats auth username:password
+   stats auth {{ ha_username }}:{{ ha_password }}
 
 frontend http_front
-   bind *:80
+   bind *:{{ port }}
    stats uri /haproxy?stats
    default_backend http_back
 
 backend http_back
     balance     roundrobin
-    server  kvm0 192.168.123.101:80 check
-    server  kvm1 192.168.123.102:80 check
+    {% for vm in virtual_machines %}
+server {{ vm.name }} {{ vm.net.ip }}:{{ port }}   check
+    {% endfor %}

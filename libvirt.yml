@@ -1,4 +1,0 @@
-- hosts: ubuntu
-  become: yes
-  roles:
-    - docker

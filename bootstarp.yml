@@ -1,0 +1,22 @@
+- hosts: localhost
+  become: yes
+  roles:
+    - localhost
+    - cloud_init
+    - libvirt
+  
+  tasks:
+  - name: Whaiting nodes start-uup
+    pause:
+      seconds: 600 
+
+- hosts: ubuntu
+  become: yes
+  roles:
+    - docker
+    - wordpress
+ 
+- hosts: localhost
+  become: yes
+  roles:
+    - haproxy
